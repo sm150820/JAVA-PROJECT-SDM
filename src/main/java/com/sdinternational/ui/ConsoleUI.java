@@ -12,16 +12,20 @@ public class ConsoleUI {
     private Scanner scanner = new Scanner(System.in);
 
     public void showTurnHeader(int turn) {
-        System.out.println("\n=== TURN " + turn + " ===");
+        System.out.println("\n====================================");
+        System.out.println("   SD INTERNATIONAL BUSINESS GAME");
+        System.out.println("====================================");
+        System.out.println("TURN " + turn);
     }
 
     public void showMainMenu() {
         System.out.println("\nChoose an action:");
         System.out.println("1. Show company status");
         System.out.println("2. Start a project");
-        System.out.println("3. Work on a project");
-        System.out.println("4. Assign employee to project");
-        System.out.println("5. Exit game");
+        System.out.println("3. Assign employee to project");
+        System.out.println("4. Advance turn");
+        System.out.println("5. Save game");
+        System.out.println("6. Exit game");
     }
 
     public int readMenuChoice() {
@@ -38,6 +42,7 @@ public class ConsoleUI {
     }
 
     public void showCompanyStatus(Company company) {
+
         System.out.println("\nCompany: " + company.getName());
         System.out.println("Cash: " + company.getCash());
 
@@ -57,6 +62,7 @@ public class ConsoleUI {
     }
 
     public int chooseProject(List<Project> projects) {
+
         if (projects.isEmpty()) return -1;
 
         System.out.println("\nChoose a project:");
@@ -80,6 +86,7 @@ public class ConsoleUI {
     }
 
     public int chooseEmployee(List<Employee> employees) {
+
         if (employees.isEmpty()) return -1;
 
         System.out.println("\nChoose an employee:");

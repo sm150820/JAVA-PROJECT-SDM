@@ -38,7 +38,18 @@ public class Company {
         projects.add(project);
     }
 
-    // PAY SALARIES EACH TURN
+    // ✅ NEW: TURN LOGIC (IMPORTANT FIX)
+    public void nextTurn() {
+
+        // 1. Projects progress
+        for (Project p : projects) {
+            p.workOneTurn();
+        }
+
+        // 2. Pay salaries ONLY WHEN TURN ADVANCES
+        paySalaries();
+    }
+
     public void paySalaries() {
         double total = 0;
 
@@ -51,6 +62,10 @@ public class Company {
 
     public boolean isBankrupt() {
         return cash <= 0;
+    }
+
+    public void reduceCash(double amount) {
+        cash -= amount;
     }
 
     public String getName() {

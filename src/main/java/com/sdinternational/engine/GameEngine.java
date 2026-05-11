@@ -1,10 +1,11 @@
 package com.sdinternational.engine;
 
-import com.sdinternational.domain.Company;
-import com.sdinternational.domain.Employee;
-import com.sdinternational.domain.Project;
-import com.sdinternational.domain.ProjectStatus;
+import com.sdinternational.domain.*;
+import com.sdinternational.events.MarketCrashEvent;
+import com.sdinternational.events.BonusEvent;
 import com.sdinternational.ui.ConsoleUI;
+
+import java.util.Random;
 
 public class GameEngine {
 
@@ -12,15 +13,20 @@ public class GameEngine {
     private ConsoleUI ui;
     private boolean running;
     private int turn;
+    private Random random;
+    private int score;
 
     public GameEngine(Company company, ConsoleUI ui) {
         this.company = company;
         this.ui = ui;
         this.running = true;
         this.turn = 1;
+        this.random = new Random();
+        this.score = 0;
     }
 
     public void start() {
+
         while (running) {
 
             ui.showTurnHeader(turn);
@@ -30,15 +36,13 @@ public class GameEngine {
             int choice = ui.readMenuChoice();
 
             handleChoice(choice);
-
-            if (running) {
-                advanceTurn();
-                turn++;
-            }
         }
+
+        ui.showMessage("Final Score: " + score);
     }
 
     private void handleChoice(int choice) {
+
         switch (choice) {
 
             case 1:
@@ -50,14 +54,18 @@ public class GameEngine {
                 break;
 
             case 3:
-                workOnOneProject();
-                break;
-
-            case 4:
                 assignEmployeeToProject();
                 break;
 
+            case 4:
+                advanceTurn();
+                break;
+
             case 5:
+                saveGame();
+                break;
+
+            case 6:
                 running = false;
                 break;
 
@@ -67,6 +75,7 @@ public class GameEngine {
     }
 
     private void startOneProject() {
+
         int index = ui.chooseProject(company.getProjects());
 
         if (index == -1) {
@@ -76,26 +85,12 @@ public class GameEngine {
 
         Project project = company.getProjects().get(index);
 
-        if (project.getStatus() == ProjectStatus.PLANNED) {
+        try {
             project.start();
             ui.showMessage("Project started.");
-        } else {
-            ui.showMessage("Project cannot be started.");
+        } catch (Exception e) {
+            ui.showMessage(e.getMessage());
         }
-    }
-
-    private void workOnOneProject() {
-        int index = ui.chooseProject(company.getProjects());
-
-        if (index == -1) {
-            ui.showMessage("Invalid selection.");
-            return;
-        }
-
-        Project project = company.getProjects().get(index);
-
-        project.workOneTurn();
-        ui.showMessage("Worked on project.");
     }
 
     private void assignEmployeeToProject() {
@@ -115,31 +110,45 @@ public class GameEngine {
         Project project = company.getProjects().get(projectIndex);
         Employee employee = company.getEmployees().get(employeeIndex);
 
-        project.addEmployee(employee);
-        ui.showMessage("Employee assigned to project.");
+        try {
+            project.addEmployee(employee);
+            ui.showMessage("Employee assigned.");
+        } catch (Exception e) {
+            ui.showMessage(e.getMessage());
+        }
     }
 
     private void advanceTurn() {
 
-        // Pay salaries
-        company.paySalaries();
-        ui.showMessage("Salaries paid!");
+        company.nextTurn();
 
-        // Check lose condition
+        ui.showMessage("Turn executed (projects + salaries)");
+
+        int eventChance = random.nextInt(5);
+
+        if (eventChance == 0) {
+            new MarketCrashEvent().apply(company);
+        } else if (eventChance == 1) {
+            new BonusEvent().apply(company);
+        }
+
+        score += 10;
+        turn++;
+
         if (company.isBankrupt()) {
-            ui.showMessage("You are bankrupt! Game Over.");
+            ui.showMessage("Bankrupt! Game Over.");
             running = false;
             return;
         }
 
-        // Check win condition
         if (allProjectsFinished()) {
-            ui.showMessage("All projects finished! Congratulations, you win!");
+            ui.showMessage("All projects finished! YOU WIN!");
             running = false;
         }
     }
 
     private boolean allProjectsFinished() {
+
         if (company.getProjects().isEmpty()) return false;
 
         for (Project p : company.getProjects()) {
@@ -147,5 +156,22 @@ public class GameEngine {
         }
 
         return true;
+    }
+
+    private void saveGame() {
+
+        try {
+            java.io.FileWriter writer = new java.io.FileWriter("save.txt");
+
+            writer.write("Cash: " + company.getCash() + "\n");
+            writer.write("Projects: " + company.getProjects().size() + "\n");
+
+            writer.close();
+
+            ui.showMessage("Game saved!");
+
+        } catch (Exception e) {
+            ui.showMessage("Error saving game.");
+        }
     }
 }

@@ -30,16 +30,33 @@ public class Project {
         if (employee == null) {
             throw new IllegalArgumentException("Employee cannot be null.");
         }
+
+        if (status != ProjectStatus.PLANNED) {
+            throw new IllegalStateException("Cannot add employees after project started.");
+        }
+
+        if (team.contains(employee)) {
+            throw new IllegalStateException("Employee already assigned.");
+        }
+
         team.add(employee);
     }
 
     public void start() {
-        if (status == ProjectStatus.PLANNED) {
-            status = ProjectStatus.IN_PROGRESS;
+
+        if (team.isEmpty()) {
+            throw new IllegalStateException("Cannot start project without employees.");
         }
+
+        if (status != ProjectStatus.PLANNED) {
+            throw new IllegalStateException("Project already started.");
+        }
+
+        status = ProjectStatus.IN_PROGRESS;
     }
 
     public void workOneTurn() {
+
         if (status != ProjectStatus.IN_PROGRESS) {
             return;
         }

@@ -7,4 +7,7 @@
 /workspaces/JAVA-PROJECT-SDM/src/main/java/com/sdinternational/domain/ProjectStatus.java
 /workspaces/JAVA-PROJECT-SDM/src/main/java/com/sdinternational/domain/Tester.java
 /workspaces/JAVA-PROJECT-SDM/src/main/java/com/sdinternational/engine/GameEngine.java
+/workspaces/JAVA-PROJECT-SDM/src/main/java/com/sdinternational/events/BonusEvent.java
+/workspaces/JAVA-PROJECT-SDM/src/main/java/com/sdinternational/events/GameEvent.java
+/workspaces/JAVA-PROJECT-SDM/src/main/java/com/sdinternational/events/MarketCrashEvent.java
 /workspaces/JAVA-PROJECT-SDM/src/main/java/com/sdinternational/ui/ConsoleUI.java
