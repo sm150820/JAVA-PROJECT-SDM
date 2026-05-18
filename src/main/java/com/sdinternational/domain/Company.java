@@ -7,80 +7,94 @@ public class Company {
 
     private String name;
     private double cash;
+    private int reputation;
+
     private List<Employee> employees;
     private List<Project> projects;
 
     public Company(String name, double cash) {
-        if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("Invalid company name.");
-        }
-        if (cash < 0) {
-            throw new IllegalArgumentException("Cash cannot be negative.");
-        }
+
+        if (name == null || name.isBlank())
+            throw new IllegalArgumentException("Invalid name");
 
         this.name = name;
         this.cash = cash;
+        this.reputation = 0;
+
         this.employees = new ArrayList<>();
         this.projects = new ArrayList<>();
     }
 
-    public void hire(Employee employee) {
-        if (employee == null) {
-            throw new IllegalArgumentException("Employee cannot be null.");
-        }
-        employees.add(employee);
+    public void hire(Employee e) {
+        employees.add(e);
     }
 
-    public void startProject(Project project) {
-        if (project == null) {
-            throw new IllegalArgumentException("Project cannot be null.");
-        }
-        projects.add(project);
+    public void startProject(Project p) {
+        projects.add(p);
     }
 
-    // ✅ NEW: TURN LOGIC (IMPORTANT FIX)
     public void nextTurn() {
+        workOnProjects();
+        paySalaries();
+        collectRevenue();
 
-        // 1. Projects progress
+        // ✅ passive income (balance improvement)
+        cash += 2000;
+    }
+
+    private void workOnProjects() {
         for (Project p : projects) {
             p.workOneTurn();
         }
-
-        // 2. Pay salaries ONLY WHEN TURN ADVANCES
-        paySalaries();
     }
 
-    public void paySalaries() {
+    // ✅ PAY ONLY ACTIVE PROJECTS
+    private void paySalaries() {
         double total = 0;
 
-        for (Employee e : employees) {
-            total += e.getSalary();
+        for (Project p : projects) {
+            if (p.getStatus() == ProjectStatus.IN_PROGRESS) {
+                for (Employee e : p.getTeam()) {
+                    total += e.getSalary();
+                }
+            }
         }
 
         cash -= total;
     }
 
-    public boolean isBankrupt() {
-        return cash <= 0;
+    private void collectRevenue() {
+        for (Project p : projects) {
+            if (p.isFinished() && !p.isPaid()) {
+                cash += p.getReward();
+                reputation += 10;
+                p.markAsPaid();
+            }
+        }
     }
 
     public void reduceCash(double amount) {
         cash -= amount;
     }
 
-    public String getName() {
-        return name;
+    public boolean hasFinishedStrategicProject() {
+        for (Project p : projects) {
+            if (p.isStrategic() && p.isFinished()) return true;
+        }
+        return false;
     }
 
-    public double getCash() {
-        return cash;
+    public boolean isBankrupt() {
+        return cash <= 0;
     }
 
-    public List<Employee> getEmployees() {
-        return employees;
+    public double calculateValue() {
+        return cash + reputation * 1000;
     }
 
-    public List<Project> getProjects() {
-        return projects;
-    }
+    public String getName() { return name; }
+    public double getCash() { return cash; }
+    public int getReputation() { return reputation; }
+    public List<Employee> getEmployees() { return employees; }
+    public List<Project> getProjects() { return projects; }
 }

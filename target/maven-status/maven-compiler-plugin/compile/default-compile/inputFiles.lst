@@ -1,7 +1,9 @@
 /workspaces/JAVA-PROJECT-SDM/src/main/java/com/sdinternational/Main.java
+/workspaces/JAVA-PROJECT-SDM/src/main/java/com/sdinternational/domain/AIPlayer.java
 /workspaces/JAVA-PROJECT-SDM/src/main/java/com/sdinternational/domain/Company.java
 /workspaces/JAVA-PROJECT-SDM/src/main/java/com/sdinternational/domain/Developer.java
 /workspaces/JAVA-PROJECT-SDM/src/main/java/com/sdinternational/domain/Employee.java
+/workspaces/JAVA-PROJECT-SDM/src/main/java/com/sdinternational/domain/GameDifficulty.java
 /workspaces/JAVA-PROJECT-SDM/src/main/java/com/sdinternational/domain/Manager.java
 /workspaces/JAVA-PROJECT-SDM/src/main/java/com/sdinternational/domain/Project.java
 /workspaces/JAVA-PROJECT-SDM/src/main/java/com/sdinternational/domain/ProjectStatus.java

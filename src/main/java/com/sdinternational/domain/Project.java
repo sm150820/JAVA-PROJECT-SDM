@@ -8,58 +8,50 @@ public class Project {
     private String name;
     private int requiredWork;
     private int progress;
+
+    private double reward;
+    private boolean strategic;
+    private boolean paid;
+
     private List<Employee> team;
     private ProjectStatus status;
 
-    public Project(String name, int requiredWork) {
-        if (name == null || name.isBlank()) {
+    public Project(String name, int requiredWork, double reward, boolean strategic) {
+        if (name == null || name.isBlank())
             throw new IllegalArgumentException("Invalid project name.");
-        }
-        if (requiredWork <= 0) {
+
+        if (requiredWork <= 0)
             throw new IllegalArgumentException("Required work must be positive.");
-        }
 
         this.name = name;
         this.requiredWork = requiredWork;
+        this.reward = reward;
+        this.strategic = strategic;
+
         this.progress = 0;
+        this.paid = false;
         this.team = new ArrayList<>();
         this.status = ProjectStatus.PLANNED;
     }
 
     public void addEmployee(Employee employee) {
-        if (employee == null) {
+        if (employee == null)
             throw new IllegalArgumentException("Employee cannot be null.");
-        }
 
-        if (status != ProjectStatus.PLANNED) {
-            throw new IllegalStateException("Cannot add employees after project started.");
+        if (!team.contains(employee)) {
+            team.add(employee);
         }
-
-        if (team.contains(employee)) {
-            throw new IllegalStateException("Employee already assigned.");
-        }
-
-        team.add(employee);
     }
 
     public void start() {
-
-        if (team.isEmpty()) {
-            throw new IllegalStateException("Cannot start project without employees.");
-        }
-
-        if (status != ProjectStatus.PLANNED) {
-            throw new IllegalStateException("Project already started.");
-        }
+        if (team.isEmpty())
+            throw new IllegalStateException("Assign employees first!");
 
         status = ProjectStatus.IN_PROGRESS;
     }
 
     public void workOneTurn() {
-
-        if (status != ProjectStatus.IN_PROGRESS) {
-            return;
-        }
+        if (status != ProjectStatus.IN_PROGRESS) return;
 
         for (Employee e : team) {
             progress += e.work();
@@ -72,26 +64,28 @@ public class Project {
     }
 
     public boolean isFinished() {
-        return status == ProjectStatus.FINISHED;
+        return progress >= requiredWork;
     }
 
-    public String getName() {
-        return name;
+    public boolean isStrategic() {
+        return strategic;
     }
 
-    public int getRequiredWork() {
-        return requiredWork;
+    public double getReward() {
+        return reward;
     }
 
-    public int getProgress() {
-        return progress;
+    public boolean isPaid() {
+        return paid;
     }
 
-    public ProjectStatus getStatus() {
-        return status;
+    public void markAsPaid() {
+        paid = true;
     }
 
-    public List<Employee> getTeam() {
-        return team;
-    }
+    public String getName() { return name; }
+    public int getRequiredWork() { return requiredWork; }
+    public int getProgress() { return progress; }
+    public ProjectStatus getStatus() { return status; }
+    public List<Employee> getTeam() { return team; }
 }
