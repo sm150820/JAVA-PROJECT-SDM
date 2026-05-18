@@ -38,7 +38,7 @@ public class Company {
         paySalaries();
         collectRevenue();
 
-        // ✅ passive income (balance improvement)
+        // passive income (balance improvement)
         cash += 2000;
     }
 
@@ -48,7 +48,7 @@ public class Company {
         }
     }
 
-    // ✅ PAY ONLY ACTIVE PROJECTS
+    // PAY ONLY WHEN PROJECTS ARE ACTIVE
     private void paySalaries() {
         double total = 0;
 

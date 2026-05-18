@@ -34,7 +34,7 @@ public class GameEngine {
         ui.showMessage("   TECHCORP DUEL - 3 COMPANIES");
         ui.showMessage("====================================");
 
-        // ✅ MAIN GAME LOOP
+        // MAIN GAME LOOP
         while (running) {
 
             showState();
@@ -55,7 +55,7 @@ public class GameEngine {
         showFinalMessage();
     }
 
-    // ✅ SHOW STATE (CLEAN SEPARATION)
+    // SHOW STATE (CLEAN SEPARATION)
     private void showState() {
         ui.showTurnHeader(turn);
 
@@ -69,7 +69,7 @@ public class GameEngine {
         }
     }
 
-    // ✅ PLAYER DECISION PHASE
+    // PLAYER DECISION PHASE
     private void playerPhase() {
         ui.showPlayerMenu();
 
@@ -83,13 +83,13 @@ public class GameEngine {
         }
     }
 
-    // ✅ AI DECISION PHASE
+    // AI DECISION PHASE
     private void aiPhase() {
         ai1.makeDecision();
         ai2.makeDecision();
     }
 
-    // ✅ CORE TURN LOGIC
+    // CORE TURN LOGIC
     private void processTurn() {
 
         ui.showMessage("\n--- Processing Turn ---");
@@ -102,7 +102,7 @@ public class GameEngine {
         ui.showMessage("Projects progressed, salaries paid, income received.");
     }
 
-    // ✅ EVENT SYSTEM
+    // EVENT SYSTEM
     private void triggerEvent() {
 
         int chance = random.nextInt(100);
@@ -127,7 +127,7 @@ public class GameEngine {
         }
     }
 
-    // ✅ PLAYER ACTIONS
+    // PLAYER ACTIONS
     private void assignEmployee() {
 
         int p = ui.chooseProject(player.getProjects());
@@ -167,33 +167,33 @@ public class GameEngine {
         }
     }
 
-    // ✅ GAME END CONDITIONS
+    // GAME END CONDITIONS
     private void checkGameEnd() {
 
         Company c1 = ai1.getCompany();
         Company c2 = ai2.getCompany();
 
-        // ✅ Strategic project win
+        // Strategic project win
         if (player.hasFinishedStrategicProject()) {
-            ui.showMessage("\n✅ YOU WIN (Strategic project completed)");
+            ui.showMessage("\nYOU WIN (Strategic project completed)");
             running = false;
             return;
         }
 
         if (c1.hasFinishedStrategicProject() || c2.hasFinishedStrategicProject()) {
-            ui.showMessage("\n❌ YOU LOST (AI completed strategic project)");
+            ui.showMessage("\nYOU LOST (AI completed strategic project)");
             running = false;
             return;
         }
 
-        // ✅ Bankruptcy
+        // Bankruptcy
         if (player.isBankrupt()) {
-            ui.showMessage("\n❌ YOU LOST (Bankrupt)");
+            ui.showMessage("\nYOU LOST (Bankrupt)");
             running = false;
             return;
         }
 
-        // ✅ End by turns
+        // End by turns
         if (turn >= maxTurns) {
 
             double pv = player.calculateValue();
@@ -206,16 +206,16 @@ public class GameEngine {
             ui.showMessage("AI2 value: " + v2);
 
             if (pv > v1 && pv > v2) {
-                ui.showMessage("✅ YOU WIN!");
+                ui.showMessage("YOU WIN!");
             } else {
-                ui.showMessage("❌ YOU LOST!");
+                ui.showMessage("YOU LOST!");
             }
 
             running = false;
         }
     }
 
-    // ✅ FINAL MESSAGE
+    // FINAL MESSAGE
     private void showFinalMessage() {
         ui.showMessage("\n====================================");
         ui.showMessage("           GAME OVER");

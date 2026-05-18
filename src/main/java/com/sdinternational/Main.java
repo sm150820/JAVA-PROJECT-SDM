@@ -8,7 +8,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // ✅ PLAYER
+        // PLAYER
         Company player = new Company("TechCorp", 50000);
 
         player.hire(new Developer("Anna", 8, 7000));
@@ -16,11 +16,11 @@ public class Main {
         player.hire(new Manager("Ewa", 7, 9000));
         player.hire(new Developer("Lucas", 5, 5000));
 
-        // ✅ TWO PROJECTS
+        // PROJECTS
         player.startProject(new Project("AI Platform", 50, 30000, true));
         player.startProject(new Project("Mobile App", 30, 15000, false));
 
-        // ✅ AI 1
+        // AI 1
         Company ai1Company = new Company("NeoSoft AI", 50000);
         ai1Company.hire(new Developer("BotDev1", 7, 6500));
         ai1Company.hire(new Tester("BotTester1", 5, 5500));
@@ -28,7 +28,7 @@ public class Main {
         ai1Company.startProject(new Project("Competing AI", 50, 30000, true));
         ai1Company.startProject(new Project("Cloud System", 30, 15000, false));
 
-        // ✅ AI 2
+        // AI 2
         Company ai2Company = new Company("CyberDynamics", 50000);
         ai2Company.hire(new Developer("BotDev2", 6, 6000));
         ai2Company.hire(new Tester("BotTester2", 4, 5000));

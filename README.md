@@ -1,6 +1,6 @@
-# 🎮 TechCorp Duel – Turn-Based Strategy Game
+# TechCorp Duel – Turn-Based Strategy Game
 
-## 📌 Project Description
+## Project Description
 
 **TechCorp Duel** is a turn-based business strategy game developed in Java.  
 The player manages a technology company and competes against two AI-controlled companies.
@@ -18,7 +18,7 @@ This project demonstrates:
 
 ---
 
-## 🧠 Game Concept
+## Game Concept
 
 You are the CEO of **TechCorp**.  
 Your competitors (**NeoSoft AI** and **CyberDynamics**) are racing to dominate the tech market.
@@ -31,29 +31,29 @@ Each turn represents a business cycle where:
 
 ---
 
-## 🎯 Objectives
+## Objectives
 
 You can win in three ways:
 
-✅ Complete the **strategic project** before competitors  
-✅ Have the **highest company value** after the final turn  
-✅ Survive economically while others fail (bankruptcy)
+- Complete the **strategic project** before competitors  
+- Have the **highest company value** after the final turn  
+- Survive economically while others fail (bankruptcy)
 
 You lose if:
-❌ You go bankrupt  
-❌ An AI finishes the strategic project first  
-❌ Your company is weaker at the end of the game  
+- You go bankrupt  
+- An AI finishes the strategic project first  
+- Your company is weaker at the end of the game  
 
 ---
 
-## 🕹️ How to Play
+## How to Play
 
-### 🔹 Step 1 – Start the Game
+### Step 1 – Start the Game
 Run the application and follow the console prompts.
 
 ---
 
-### 🔹 Step 2 – Manage Your Company
+### Step 2 – Manage Your Company
 
 Each turn, you can:
 
@@ -69,19 +69,24 @@ Each turn, you can:
 
 ---
 
-### 🔹 Step 3 – Understand the System
+### Step 3 – Understand the System
 
-#### 👨‍💻 Employees
+#### Employees
 - Each employee has:
   - Skill (affects progress)
   - Salary (cost per turn)
 
-#### 📊 Projects
+#### Projects
 - Require work to complete
 - Show progress with visual bars:
+
+[██████░░░░░░░░░░░░] 30%
+
+█ = completed work  
+░ = remaining work  
 - Can be **strategic** (important for winning)
 
-#### 💰 Economy
+#### Economy
 - Salaries are only paid when projects are active
 - Passive income is generated each turn
 - Finished projects generate rewards
@@ -102,17 +107,24 @@ Each turn, you can:
 
 Every few turns, events may occur:
 
-- ⚠ **Market Crash** → lose money  
-- 💰 **Bonus** → gain money  
+- **Market Crash** → lose money  
+- **Bonus** → gain money  
 
 These make the game dynamic and unpredictable.
 
 ---
 
-## 🧩 Project Structure
+## Project Structure
+com.sdinternational
+│
+├── domain     → Core game logic (Company, Project, Employee)
+├── engine     → Game flow controller (GameEngine)
+├── ui         → Console interaction with the player
+├── events     → Random event system (Bonus, Market Crash)
+└── Main.java  → Entry point of the application
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 The project follows a layered design:
 
@@ -127,20 +139,20 @@ This ensures:
 
 ---
 
-## 🚀 Features
+## Features
 
-✅ Turn-based gameplay  
-✅ Multiple competing companies (Player vs AI)  
-✅ Employee management system  
-✅ Project lifecycle system  
-✅ Economic system (costs, rewards)  
-✅ Random events  
-✅ Difficulty levels  
-✅ Visual progress bars  
++ Turn-based gameplay  
++ Multiple competing companies (Player vs AI)  
++ Employee management system  
++ Project lifecycle system  
++ Economic system (costs, rewards)  
++ Random events  
++ Difficulty levels  
++ Visual progress bars  
 
 ---
 
-## 🏆 Learning Outcomes
+## Learning Outcomes
 
 This project helps practice:
 - Object-Oriented Design
@@ -150,7 +162,7 @@ This project helps practice:
 
 ---
 
-## ▶️ How to Run
+## How to Run
 
 1. Clone the repository
 2. Open in VS Code or IntelliJ

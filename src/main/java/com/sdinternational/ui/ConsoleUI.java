@@ -38,7 +38,7 @@ public class ConsoleUI {
         return choice;
     }
 
-    // ✅ FULL UPDATED METHOD WITH PROGRESS BARS
+    // METHOD WITH PROGRESS BARS
     public void showCompanyStatus(Company company) {
 
         System.out.println("\nCompany: " + company.getName());
@@ -64,7 +64,7 @@ public class ConsoleUI {
                     + " | " + p.getStatus()
                     + " | " + bar + " " + percent + "%");
 
-            // ✅ SHOW TEAM
+            // SHOW TEAM
             if (!p.getTeam().isEmpty()) {
                 System.out.print("   Team: ");
                 for (Employee e : p.getTeam()) {
@@ -129,7 +129,7 @@ public class ConsoleUI {
         System.out.println(message);
     }
 
-    // ✅ BEAUTIFUL PROGRESS BAR
+    // PROGRESS BAR
     private String buildProgressBar(int percent) {
 
         int totalBars = 20;
