@@ -48,12 +48,12 @@ You lose if:
 
 ## How to Play
 
-### Step 1 – Start the Game
+### 🔹 Step 1 – Start the Game
 Run the application and follow the console prompts.
 
 ---
 
-### Step 2 – Manage Your Company
+### 🔹 Step 2 – Manage Your Company
 
 Each turn, you can:
 
@@ -69,7 +69,7 @@ Each turn, you can:
 
 ---
 
-### Step 3 – Understand the System
+### 🔹 Step 3 – Understand the System
 
 #### Employees
 - Each employee has:
