@@ -33,12 +33,13 @@ public class Company {
         projects.add(p);
     }
 
+    // MAIN TURN LOGIC
     public void nextTurn() {
         workOnProjects();
         paySalaries();
         collectRevenue();
 
-        // passive income (balance improvement)
+        // passive income
         cash += 2000;
     }
 
@@ -48,7 +49,7 @@ public class Company {
         }
     }
 
-    // PAY ONLY WHEN PROJECTS ARE ACTIVE
+    // PAY ONLY ACTIVE PROJECTS
     private void paySalaries() {
         double total = 0;
 
@@ -63,6 +64,7 @@ public class Company {
         cash -= total;
     }
 
+    // REWARD SYSTEM
     private void collectRevenue() {
         for (Project p : projects) {
             if (p.isFinished() && !p.isPaid()) {
@@ -73,6 +75,7 @@ public class Company {
         }
     }
 
+    // EVENTS SYSTEM USES THIS
     public void reduceCash(double amount) {
         cash -= amount;
     }
@@ -88,9 +91,21 @@ public class Company {
         return cash <= 0;
     }
 
+    // FINAL VALUE
     public double calculateValue() {
-        return cash + reputation * 1000;
+
+        int finishedProjects = 0;
+
+        for (Project p : projects) {
+            if (p.isFinished()) {
+                 finishedProjects++;
+            }
+        }
+
+         // ✅ FINAL VALUE FORMULA
+        return cash + (reputation * 1000) + (finishedProjects * 10000);
     }
+
 
     public String getName() { return name; }
     public double getCash() { return cash; }

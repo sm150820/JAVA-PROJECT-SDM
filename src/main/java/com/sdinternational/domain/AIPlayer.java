@@ -19,25 +19,31 @@ public class AIPlayer {
         switch (difficulty) {
 
             case EASY -> {
-                // only assign 1 employee
                 if (!company.getEmployees().isEmpty()) {
-                    project.addEmployee(company.getEmployees().get(0));
+                    Employee e = company.getEmployees().get(0);
+                    if (!project.getTeam().contains(e)) {
+                        project.addEmployee(e);
+                    }
                 }
             }
 
             case MEDIUM -> {
-                // assign half employees
                 int half = company.getEmployees().size() / 2;
 
                 for (int i = 0; i < half; i++) {
-                    project.addEmployee(company.getEmployees().get(i));
+                    Employee e = company.getEmployees().get(i);
+
+                    if (!project.getTeam().contains(e)) {
+                        project.addEmployee(e);
+                    }
                 }
             }
 
             case HARD -> {
-                // assign all employees + aggressive start
                 for (Employee e : company.getEmployees()) {
-                    project.addEmployee(e);
+                    if (!project.getTeam().contains(e)) {
+                        project.addEmployee(e);
+                    }
                 }
             }
         }

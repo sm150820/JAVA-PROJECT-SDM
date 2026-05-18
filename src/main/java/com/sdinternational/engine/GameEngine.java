@@ -6,13 +6,14 @@ import com.sdinternational.events.MarketCrashEvent;
 import com.sdinternational.ui.ConsoleUI;
 
 import java.util.Random;
+import java.util.List;
+import java.util.ArrayList;
 
 public class GameEngine {
 
     private Company player;
     private AIPlayer ai1;
     private AIPlayer ai2;
-
     private ConsoleUI ui;
 
     private int turn = 1;
@@ -31,19 +32,31 @@ public class GameEngine {
     public void start() {
 
         ui.showMessage("====================================");
-        ui.showMessage("   TECHCORP DUEL - 3 COMPANIES");
+        ui.showMessage("        TECHCORP DUEL");
         ui.showMessage("====================================");
 
-        // MAIN GAME LOOP
+        ui.showMessage("🎯 GOAL: Complete ALL projects before your competitors!");
+        ui.showMessage("💡 Manage money carefully and finish faster than AI.\n");
+
         while (running) {
 
-            showState();
+            ui.showTurnHeader(turn);
 
-            playerPhase();
+            ui.showCompanyStatus(player);
+            ui.showCompanyStatus(ai1.getCompany());
+            ui.showCompanyStatus(ai2.getCompany());
+
+            playerDecision();
 
             aiPhase();
 
             processTurn();
+
+            // ✅ SHOW FULL UPDATED STATE
+            ui.showMessage("\n📊 Updated status after this turn:");
+            ui.showCompanyStatus(player);
+            ui.showCompanyStatus(ai1.getCompany());
+            ui.showCompanyStatus(ai2.getCompany());
 
             triggerEvent();
 
@@ -51,174 +64,209 @@ public class GameEngine {
 
             turn++;
         }
-
-        showFinalMessage();
     }
 
-    // SHOW STATE (CLEAN SEPARATION)
-    private void showState() {
-        ui.showTurnHeader(turn);
+    // ================= PLAYER =================
+    private void playerDecision() {
 
-        ui.showCompanyStatus(player);
-        ui.showCompanyStatus(ai1.getCompany());
-        ui.showCompanyStatus(ai2.getCompany());
-
-        // Warning system
-        if (player.getCash() < 15000 && player.getCash() > 0) {
-            ui.showMessage("⚠ WARNING: Low cash!");
-        }
-    }
-
-    // PLAYER DECISION PHASE
-    private void playerPhase() {
         ui.showPlayerMenu();
-
         int choice = ui.readMenuChoice();
 
         switch (choice) {
             case 1 -> assignEmployee();
             case 2 -> startProject();
             case 3 -> ui.showMessage("Skipping turn...");
-            default -> ui.showMessage("Invalid choice.");
+            default -> ui.showMessage("Invalid option.");
         }
     }
 
-    // AI DECISION PHASE
+    // ================= AI =================
     private void aiPhase() {
         ai1.makeDecision();
         ai2.makeDecision();
     }
 
-    // CORE TURN LOGIC
+    // ================= PROCESS =================
     private void processTurn() {
 
-        ui.showMessage("\n--- Processing Turn ---");
+        ui.showLoading();
 
-        // Work + salaries + revenue
         player.nextTurn();
         ai1.getCompany().nextTurn();
         ai2.getCompany().nextTurn();
 
-        ui.showMessage("Projects progressed, salaries paid, income received.");
+        ui.showMessage("✅ Work completed for this turn.");
     }
 
-    // EVENT SYSTEM
+    // ================= ASSIGN =================
+    private void assignEmployee() {
+
+        int projectIndex = ui.chooseProject(player.getProjects());
+
+        if (projectIndex == -1) {
+            ui.showMessage("Cancelled.");
+            return;
+        }
+
+        Project project = player.getProjects().get(projectIndex);
+
+        List<Integer> indexes = ui.chooseEmployees(player.getEmployees());
+
+        if (indexes.isEmpty()) {
+            ui.showMessage("No employees selected.");
+            return;
+        }
+
+        for (int index : indexes) {
+
+            if (index < 0 || index >= player.getEmployees().size()) continue;
+
+            Employee employee = player.getEmployees().get(index);
+
+            try {
+                project.addEmployee(employee);
+                ui.showMessage("✅ Added: " + employee.getName());
+            } catch (Exception e) {
+                ui.showMessage("⚠ " + e.getMessage());
+            }
+        }
+    }
+
+    // ================= START =================
+    private void startProject() {
+
+        int p = ui.chooseProject(player.getProjects());
+
+        if (p == -1) {
+            ui.showMessage("Cancelled.");
+            return;
+        }
+
+        try {
+            player.getProjects().get(p).start();
+            ui.showMessage("🚀 Project started.");
+        } catch (Exception e) {
+            ui.showMessage("⚠ " + e.getMessage());
+        }
+    }
+
+    // ================= EVENTS =================
     private void triggerEvent() {
 
         int chance = random.nextInt(100);
 
         if (chance < 30) {
 
-            int type = random.nextInt(2);
+            if (random.nextBoolean()) {
 
-            if (type == 0) {
                 new MarketCrashEvent().apply(player);
                 new MarketCrashEvent().apply(ai1.getCompany());
                 new MarketCrashEvent().apply(ai2.getCompany());
 
-                ui.showMessage("⚠ MARKET CRASH! All companies lose 5000");
+                ui.showMessage("⚠ MARKET CRASH! (-5000)");
+
             } else {
+
                 new BonusEvent().apply(player);
                 new BonusEvent().apply(ai1.getCompany());
                 new BonusEvent().apply(ai2.getCompany());
 
-                ui.showMessage("💰 BONUS! All companies gain 3000");
+                ui.showMessage("💰 BONUS! (+3000)");
             }
         }
     }
 
-    // PLAYER ACTIONS
-    private void assignEmployee() {
-
-        int p = ui.chooseProject(player.getProjects());
-        int e = ui.chooseEmployee(player.getEmployees());
-
-        if (p == -1 || e == -1) {
-            ui.showMessage("Assignment cancelled.");
-            return;
-        }
-
-        try {
-            Project project = player.getProjects().get(p);
-            Employee employee = player.getEmployees().get(e);
-
-            project.addEmployee(employee);
-
-            ui.showMessage("Employee assigned.");
-        } catch (Exception ex) {
-            ui.showMessage(ex.getMessage());
-        }
-    }
-
-    private void startProject() {
-
-        int p = ui.chooseProject(player.getProjects());
-
-        if (p == -1) {
-            ui.showMessage("Action cancelled.");
-            return;
-        }
-
-        try {
-            player.getProjects().get(p).start();
-            ui.showMessage("Project started.");
-        } catch (Exception ex) {
-            ui.showMessage(ex.getMessage());
-        }
-    }
-
-    // GAME END CONDITIONS
+    // ================= GAME END =================
     private void checkGameEnd() {
 
         Company c1 = ai1.getCompany();
         Company c2 = ai2.getCompany();
 
-        // Strategic project win
-        if (player.hasFinishedStrategicProject()) {
-            ui.showMessage("\nYOU WIN (Strategic project completed)");
+        // ✅ PLAYER WINS (ALL PROJECTS)
+        if (allProjectsFinished(player)) {
+
+            ui.showMessage("\n✅ All your projects are completed.");
+            ui.showMessage("\n🏆 YOU WIN! All projects completed!");
+
             running = false;
             return;
         }
 
-        if (c1.hasFinishedStrategicProject() || c2.hasFinishedStrategicProject()) {
-            ui.showMessage("\nYOU LOST (AI completed strategic project)");
+        // ✅ AI WINS
+        if (allProjectsFinished(c1) || allProjectsFinished(c2)) {
+
+            ui.showMessage("\n❌ YOU LOST! An AI completed all projects first.");
+
             running = false;
             return;
         }
 
-        // Bankruptcy
-        if (player.isBankrupt()) {
-            ui.showMessage("\nYOU LOST (Bankrupt)");
-            running = false;
+        // ✅ CONTINUE GAME
+        if (turn < maxTurns && player.getCash() > -10000) {
             return;
         }
 
-        // End by turns
-        if (turn >= maxTurns) {
-
-            double pv = player.calculateValue();
-            double v1 = c1.calculateValue();
-            double v2 = c2.calculateValue();
-
-            ui.showMessage("\n=== FINAL RESULTS ===");
-            ui.showMessage("Your value: " + pv);
-            ui.showMessage("AI1 value: " + v1);
-            ui.showMessage("AI2 value: " + v2);
-
-            if (pv > v1 && pv > v2) {
-                ui.showMessage("YOU WIN!");
-            } else {
-                ui.showMessage("YOU LOST!");
-            }
-
-            running = false;
-        }
-    }
-
-    // FINAL MESSAGE
-    private void showFinalMessage() {
+        // ✅ FINAL RANKING
         ui.showMessage("\n====================================");
         ui.showMessage("           GAME OVER");
         ui.showMessage("====================================");
+
+        double pv = player.calculateValue();
+        double v1 = c1.calculateValue();
+        double v2 = c2.calculateValue();
+
+        List<String> ranking = new ArrayList<>();
+        ranking.add("YOU: " + pv);
+        ranking.add("AI1: " + v1);
+        ranking.add("AI2: " + v2);
+
+        ranking.sort((a, b) -> {
+            double va = Double.parseDouble(a.split(": ")[1]);
+            double vb = Double.parseDouble(b.split(": ")[1]);
+            return Double.compare(vb, va);
+        });
+
+        ui.showMessage("\n===== FINAL RANKING =====");
+
+        for (int i = 0; i < ranking.size(); i++) {
+
+            String medal = (i == 0) ? "🥇"
+                    : (i == 1) ? "🥈"
+                    : "🥉";
+
+            ui.showMessage(medal + " " + ranking.get(i));
+        }
+
+        // ✅ FINAL RESULT
+        if (ranking.get(0).startsWith("YOU")) {
+
+            if (player.getCash() <= 0) {
+                ui.showMessage("\n💀 YOU WIN... BUT WITH DEBT!");
+            } else {
+                ui.showMessage("\n🎉 CONGRATULATIONS! YOU WIN!");
+            }
+
+        } else {
+
+            if (player.getCash() <= -10000) {
+                ui.showMessage("\n💸 YOU COLLAPSED FINANCIALLY!");
+            } else {
+                ui.showMessage("\n❌ YOU LOST! AI dominated the market.");
+            }
+        }
+
+        running = false;
+    }
+
+    // ✅ CHECK ALL PROJECTS
+    private boolean allProjectsFinished(Company company) {
+
+        for (Project p : company.getProjects()) {
+            if (!p.isFinished()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

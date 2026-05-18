@@ -17,11 +17,12 @@ public class Project {
     private ProjectStatus status;
 
     public Project(String name, int requiredWork, double reward, boolean strategic) {
+
         if (name == null || name.isBlank())
-            throw new IllegalArgumentException("Invalid project name.");
+            throw new IllegalArgumentException("Invalid project name");
 
         if (requiredWork <= 0)
-            throw new IllegalArgumentException("Required work must be positive.");
+            throw new IllegalArgumentException("Work must be positive");
 
         this.name = name;
         this.requiredWork = requiredWork;
@@ -30,17 +31,21 @@ public class Project {
 
         this.progress = 0;
         this.paid = false;
+
         this.team = new ArrayList<>();
         this.status = ProjectStatus.PLANNED;
     }
 
     public void addEmployee(Employee employee) {
-        if (employee == null)
-            throw new IllegalArgumentException("Employee cannot be null.");
 
-        if (!team.contains(employee)) {
-            team.add(employee);
+        if (employee == null)
+            throw new IllegalArgumentException("Employee null");
+
+        if (team.contains(employee)) {
+            throw new IllegalStateException("Employee already assigned.");
         }
+
+        team.add(employee);
     }
 
     public void start() {
@@ -51,6 +56,7 @@ public class Project {
     }
 
     public void workOneTurn() {
+
         if (status != ProjectStatus.IN_PROGRESS) return;
 
         for (Employee e : team) {
