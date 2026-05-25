@@ -1,11 +1,11 @@
-# ✅ STEP 1 — Build the project
+# STEP 1 — Build the project
 FROM maven:3.9.9-eclipse-temurin-17 AS build
 
 WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
 
-# ✅ STEP 2 — Run the application
+# STEP 2 — Run the application
 FROM eclipse-temurin:17-jdk
 
 WORKDIR /app

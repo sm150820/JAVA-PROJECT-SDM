@@ -1,30 +1,24 @@
 
-# 🎮 TechCorp Duel – Turn-Based Strategy Game
+# TechCorp Duel – Turn-Based Strategy Game
 
-## 📌 Project Description
+## Project Description
 
 **TechCorp Duel** is a turn-based business strategy game developed in Java.  
 The player manages a technology company and competes against two AI-controlled companies.
 
 The goal is no longer just to survive or earn money — it is to **strategically manage resources and complete all projects faster than your competitors**.
 
-This project demonstrates:
-
-- Object-Oriented Programming (OOP)
-- Layered architecture (Engine / UI / Domain)
-- Turn-based strategy design
-- Decision-making systems over time
-- System extension and improvement
+The project was extended into a **web application using Spring Boot** and deployed publicly using **Render**, making it accessible through HTTP endpoints.
 
 ---
 
-## 🧠 Game Concept
+## Game Concept
 
 You are the CEO of **TechCorp**.
 
 You compete against:
-- 🤖 NeoSoft AI  
-- 🤖 CyberDynamics  
+- NeoSoft AI  
+- CyberDynamics  
 
 Each company:
 - hires employees  
@@ -32,29 +26,32 @@ Each company:
 - spends money  
 - earns rewards  
 
-Every turn represents a business cycle.
+Each turn represents a business cycle where you:
+- Assign employees
+- Start projects
+- Manage resources
 
 ---
 
-## 🎯 MAIN OBJECTIVE (UPDATED)
+## MAIN OBJECTIVE
 
-> ✅ **Win by completing ALL your projects before any AI company**
+> **Win by completing ALL your projects before any AI company**
 
 ---
 
-### ✅ You WIN if:
+### You WIN if:
 - You finish **all your projects first**
 
 ---
 
-### ❌ You LOSE if:
+### You LOSE if:
 - Any AI completes all their projects first  
 - Your company collapses financially (cash ≤ -10000)  
 - At the final turn (Turn 12), your company has lower value  
 
 ---
 
-## 🕹️ How the Game Works
+## How the Game Works
 
 Each turn:
 
@@ -68,33 +65,33 @@ Each turn:
 
 ---
 
-## ⚙️ Player Actions
+## Player Actions
 
 Each turn, you can:
 
-### 1️⃣ Assign Employees
+### 1️. Assign Employees
 - Assign **one or multiple employees** to a project
 - Example input: 1, 2, 3
 
-### 2️⃣ Start Project
+### 2️. Start Project
 - Projects only progress when **started**
 - Projects need a team first
 
-### 3️⃣ Skip Turn
+### 3️. Skip Turn
 - Useful for saving money or waiting
 
 ---
 
-## 🧩 Game Systems
+## Game Systems
 
-### 👨‍💻 Employees
+### Employees
 - Have **skill** (affects progress)
 - Have **salary** (cost per turn)
 - Can be assigned to projects
 
 ---
 
-### 📊 Projects
+### Projects
 
 Projects have:
 - Required work
@@ -111,18 +108,18 @@ Progress is shown visually:
 
 ---
 
-### 💰 Economy
+### Economy
 
 - Salaries paid only when projects are active
 - Passive income each turn
 - Finished projects give rewards
 - Going negative is allowed… until:
 
-> ❌ Bankruptcy threshold = **-10000**
+> Bankruptcy threshold = **-10000**
 
 ---
 
-### 🤖 AI System
+### AI System
 
 - AI assigns employees automatically
 - Difficulty levels:
@@ -132,26 +129,26 @@ Progress is shown visually:
 
 ---
 
-### 🎲 Random Events
+### Random Events
 
 Occur randomly:
 
-- ⚠ **Market Crash** → lose money  
-- 💰 **Bonus** → gain money  
+- **Market Crash** → lose money  
+- **Bonus** → gain money  
 
 ---
 
-## 🧠 Strategy Tips
+## Strategy Tips
 
-- Do NOT start projects too early → salary cost ⚠  
-- Assign multiple employees to finish faster ✅  
+- Do NOT start projects too early → salary cost 
+- Assign multiple employees to finish faster 
 - Manage cash carefully  
 - Focus on finishing projects quickly  
 - Speed is often better than saving money  
 
 ---
 
-## 🗂️ Project Structure
+## Project Structure
 com.sdinternational
 - domain     → Core logic (Company, Project, Employee)
 - engine     → Game flow (GameEngine)
@@ -161,41 +158,62 @@ com.sdinternational
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
-The system is divided into 3 layers:
+The system is divided into 4 layers:
 
-- **Engine (Control Layer)**  
-  → Controls turns and game logic  
-
-- **UI (Interaction Layer)**  
-  → Handles user input/output  
-
-- **Domain (Business Layer)**  
-  → Core game rules and logic  
-
-✅ This ensures clean, modular, extensible code.
+**domain** → Takes care of the Core game rules and logic
+**engine** → Controls turns and game logic 
+**ui** → Handles user input/output 
+**api** → In charge of the web layer
 
 ---
 
-## 🚀 Features (Final Version)
+## 🌐 Web Application Programming Interface (API)
 
-✔ Turn-based gameplay  
-✔ 3 competing companies  
-✔ Multi-employee assignment  
-✔ Project lifecycle system  
-✔ Economy system with risk  
-✔ Random events system  
-✔ Difficulty levels  
-✔ Visual progress bars  
-✔ Colored UI + panels  
-✔ Animated turn transitions  
-✔ Ranking system  
-✔ Clear win/loss conditions  
+The game is exposed as a **REST API**
+### Endpoints:
+
+- `/` → API homepage  
+- `/health` → server status  
+- `/game/state` → game info 
 
 ---
 
-## 📚 Learning Outcomes
+## Deployment
+
+### Mode 1 — Console Game (Play the Game)
+
+#### Compile:
+```bash
+mvn compile
+mvn exec:java -Dexec.mainClass="com.sdinternational.Main"
+```
+---
+
+### Mode 2 — Web API (Server Mode)
+Expose system via HTTP
+## Run Locally
+
+```bash
+mvn spring-boot:run
+```
+
+The application is deployed using **Render and Docker**.
+
+#### Public URL: API status
+https://java-project-sdm.onrender.com
+
+#### Health check
+https://java-project-sdm.onrender.com/health
+
+#### basic game info
+https://java-project-sdm.onrender.com/game/state
+
+
+---
+
+## Learning Outcomes
 
 This project demonstrates:
 
@@ -207,9 +225,3 @@ This project demonstrates:
 
 ---
 
-## ▶️ How to Run (IMPORTANT)
-
-### ✅ Compile:
-```bash
-mvn compile
-mvn exec:java -Dexec.mainClass="com.sdinternational.Main"

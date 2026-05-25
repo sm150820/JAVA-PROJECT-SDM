@@ -75,7 +75,7 @@ public class Company {
         }
     }
 
-    // EVENTS SYSTEM USES THIS
+    // EVENTS SYSTEM 
     public void reduceCash(double amount) {
         cash -= amount;
     }
@@ -102,7 +102,7 @@ public class Company {
             }
         }
 
-         // ✅ FINAL VALUE FORMULA
+         // VALUE FORMULA
         return cash + (reputation * 1000) + (finishedProjects * 10000);
     }
 

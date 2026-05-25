@@ -24,7 +24,7 @@
 
     <dependencies>
 
-        <!-- ✅ SPRING BOOT WEB -->
+        <!-- SPRING BOOT WEB -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -35,7 +35,7 @@
     <build>
         <plugins>
 
-            <!-- ✅ SPRING BOOT -->
+            <!-- SPRING BOOT -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

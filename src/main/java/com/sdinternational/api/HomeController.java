@@ -8,6 +8,6 @@ public class HomeController {
 
     @GetMapping("/")
     public String home() {
-        return "TechCorp Game API is LIVE 🚀";
+        return "TechCorp Game API is LIVE";
     }
 }

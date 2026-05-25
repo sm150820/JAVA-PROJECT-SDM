@@ -35,8 +35,8 @@ public class GameEngine {
         ui.showMessage("        TECHCORP DUEL");
         ui.showMessage("====================================");
 
-        ui.showMessage("🎯 GOAL: Complete ALL projects before your competitors!");
-        ui.showMessage("💡 Manage money carefully and finish faster than AI.\n");
+        ui.showMessage("GOAL: Complete ALL projects before your competitors!");
+        ui.showMessage("Manage money carefully and finish faster than AI.\n");
 
         while (running) {
 
@@ -52,8 +52,8 @@ public class GameEngine {
 
             processTurn();
 
-            // ✅ SHOW FULL UPDATED STATE
-            ui.showMessage("\n📊 Updated status after this turn:");
+            // SHOW FULL UPDATED STATE
+            ui.showMessage("\nUpdated status after this turn:");
             ui.showCompanyStatus(player);
             ui.showCompanyStatus(ai1.getCompany());
             ui.showCompanyStatus(ai2.getCompany());
@@ -95,7 +95,7 @@ public class GameEngine {
         ai1.getCompany().nextTurn();
         ai2.getCompany().nextTurn();
 
-        ui.showMessage("✅ Work completed for this turn.");
+        ui.showMessage("Work completed for this turn.");
     }
 
     // ================= ASSIGN =================
@@ -125,7 +125,7 @@ public class GameEngine {
 
             try {
                 project.addEmployee(employee);
-                ui.showMessage("✅ Added: " + employee.getName());
+                ui.showMessage("Added: " + employee.getName());
             } catch (Exception e) {
                 ui.showMessage("⚠ " + e.getMessage());
             }
@@ -144,7 +144,7 @@ public class GameEngine {
 
         try {
             player.getProjects().get(p).start();
-            ui.showMessage("🚀 Project started.");
+            ui.showMessage("Project started.");
         } catch (Exception e) {
             ui.showMessage("⚠ " + e.getMessage());
         }
@@ -171,7 +171,7 @@ public class GameEngine {
                 new BonusEvent().apply(ai1.getCompany());
                 new BonusEvent().apply(ai2.getCompany());
 
-                ui.showMessage("💰 BONUS! (+3000)");
+                ui.showMessage("⚠ BONUS! (+3000)");
             }
         }
     }
@@ -182,31 +182,31 @@ public class GameEngine {
         Company c1 = ai1.getCompany();
         Company c2 = ai2.getCompany();
 
-        // ✅ PLAYER WINS (ALL PROJECTS)
+        // PLAYER WINS (ALL PROJECTS)
         if (allProjectsFinished(player)) {
 
-            ui.showMessage("\n✅ All your projects are completed.");
-            ui.showMessage("\n🏆 YOU WIN! All projects completed!");
+            ui.showMessage("\nAll your projects are completed.");
+            ui.showMessage("\nYOU WIN! All projects completed!");
 
             running = false;
             return;
         }
 
-        // ✅ AI WINS
+        // AI WINS
         if (allProjectsFinished(c1) || allProjectsFinished(c2)) {
 
-            ui.showMessage("\n❌ YOU LOST! An AI completed all projects first.");
+            ui.showMessage("\nYOU LOST! An AI completed all projects first.");
 
             running = false;
             return;
         }
 
-        // ✅ CONTINUE GAME
+        // CONTINUE GAME
         if (turn < maxTurns && player.getCash() > -10000) {
             return;
         }
 
-        // ✅ FINAL RANKING
+        // FINAL RANKING
         ui.showMessage("\n====================================");
         ui.showMessage("           GAME OVER");
         ui.showMessage("====================================");
@@ -237,28 +237,28 @@ public class GameEngine {
             ui.showMessage(medal + " " + ranking.get(i));
         }
 
-        // ✅ FINAL RESULT
+        // FINAL RESULT
         if (ranking.get(0).startsWith("YOU")) {
 
             if (player.getCash() <= 0) {
-                ui.showMessage("\n💀 YOU WIN... BUT WITH DEBT!");
+                ui.showMessage("\nYOU WIN... BUT WITH DEBT!");
             } else {
-                ui.showMessage("\n🎉 CONGRATULATIONS! YOU WIN!");
+                ui.showMessage("\nCONGRATULATIONS! YOU WIN!");
             }
 
         } else {
 
             if (player.getCash() <= -10000) {
-                ui.showMessage("\n💸 YOU COLLAPSED FINANCIALLY!");
+                ui.showMessage("\nYOU COLLAPSED FINANCIALLY!");
             } else {
-                ui.showMessage("\n❌ YOU LOST! AI dominated the market.");
+                ui.showMessage("\nYOU LOST! AI dominated the market.");
             }
         }
 
         running = false;
     }
 
-    // ✅ CHECK ALL PROJECTS
+    // CHECK ALL PROJECTS
     private boolean allProjectsFinished(Company company) {
 
         for (Project p : company.getProjects()) {
