@@ -89,8 +89,6 @@ Each turn, you can:
 - Have **salary** (cost per turn)
 - Can be assigned to projects
 
----
-
 ### Projects
 
 Projects have:
@@ -106,8 +104,6 @@ Progress is shown visually:
 ░ = remaining work  
 - Can be **strategic** (important for winning)
 
----
-
 ### Economy
 
 - Salaries paid only when projects are active
@@ -117,7 +113,6 @@ Progress is shown visually:
 
 > Bankruptcy threshold = **-10000**
 
----
 
 ### AI System
 
@@ -127,7 +122,6 @@ Progress is shown visually:
   - 🟡 MEDIUM → balanced  
   - 🔴 HARD → aggressive  
 
----
 
 ### Random Events
 
@@ -149,34 +143,41 @@ Occur randomly:
 ---
 
 ## Project Structure
+
 com.sdinternational
-- domain     → Core logic (Company, Project, Employee)
-- engine     → Game flow (GameEngine)
-- ui         → Console interaction
-- events     → Random events
-- Main.java  → Entry point
+domain     → Core logic (Company, Project, Employee)
+engine     → Game flow and turn logic (GameEngine)
+ui         → Console interaction
+events     → Random events system
+api        → Web layer (REST controllers)
+Main.java  → Entry point for console gameplay
 
 ---
 
 ## Architecture
 
-The system is divided into 4 layers:
+The system is divided into **4 layers**:
 
-**domain** → Takes care of the Core game rules and logic
-**engine** → Controls turns and game logic 
-**ui** → Handles user input/output 
-**api** → In charge of the web layer
+- **domain** → Contains core game rules and business logic  
+- **engine** → Controls the game loop and turn execution  
+- **ui** → Handles user interaction through the console  
+- **api** → Exposes the application as a web service using Spring Boot  
 
 ---
 
 ## 🌐 Web Application Programming Interface (API)
 
 The game is exposed as a **REST API**
-### Endpoints:
 
-- `/` → API homepage  
-- `/health` → server status  
-- `/game/state` → game info 
+### Endpoints:
+The application is deployed using **Render and Docker**.
+
+- `/` → API homepage (API status)
+https://java-project-sdm.onrender.com
+- `/health` → server status (Health check)
+https://java-project-sdm.onrender.com/health
+- `/game/state` → game info (basic game info)
+https://java-project-sdm.onrender.com/game/state
 
 ---
 
@@ -198,19 +199,6 @@ Expose system via HTTP
 ```bash
 mvn spring-boot:run
 ```
-
-The application is deployed using **Render and Docker**.
-
-#### Public URL: API status
-https://java-project-sdm.onrender.com
-
-#### Health check
-https://java-project-sdm.onrender.com/health
-
-#### basic game info
-https://java-project-sdm.onrender.com/game/state
-
-
 ---
 
 ## Learning Outcomes
