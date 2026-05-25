@@ -10,7 +10,10 @@ com/sdinternational/domain/Company.class
 com/sdinternational/events/MarketCrashEvent.class
 com/sdinternational/domain/AIPlayer.class
 com/sdinternational/events/BonusEvent.class
+com/sdinternational/TechCorpApplication.class
 com/sdinternational/engine/GameEngine.class
+com/sdinternational/api/GameController.class
 com/sdinternational/domain/Tester.class
+com/sdinternational/api/HealthController.class
 com/sdinternational/domain/Employee.class
 com/sdinternational/domain/GameDifficulty.class
