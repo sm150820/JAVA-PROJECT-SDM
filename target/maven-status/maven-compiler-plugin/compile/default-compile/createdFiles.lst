@@ -6,6 +6,7 @@ com/sdinternational/domain/Developer.class
 com/sdinternational/events/GameEvent.class
 com/sdinternational/domain/ProjectStatus.class
 com/sdinternational/ui/ConsoleUI.class
+com/sdinternational/api/HomeController.class
 com/sdinternational/domain/Company.class
 com/sdinternational/events/MarketCrashEvent.class
 com/sdinternational/domain/AIPlayer.class
